@@ -36,8 +36,9 @@ int Person::Get_zipcode()
 
 void Person::Add_offender(const string &name, const string &address)
 {
-    this->names.push_back(name);
-    this->addresses.push_back(address);
+    this->names.push_back(name);   //Do not use
+    this->addresses.push_back(address);  //Do not use
+    this->data.emplace_back(name,address);
 }
 
 void Person::Deserialize(istringstream& stream){

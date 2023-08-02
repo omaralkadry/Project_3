@@ -8,8 +8,9 @@
 using namespace std;
 
 class Person {
-    vector<string> names;
-    vector<string> addresses;
+    vector<string> names;  //Do not use
+    vector<string> addresses;   //Do not use
+    vector <pair<string,string>> data;
     string name;
     string address;
     string city;
