@@ -64,3 +64,8 @@ void Person::remove_person(int index)
     auto iter = data.begin() + index;
     data.erase(iter);
 }
+
+void Person::sort_data()
+{
+    sort(data.begin(),data.end());
+}

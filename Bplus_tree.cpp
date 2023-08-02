@@ -160,7 +160,7 @@ void BPlusTree::search(int zipcode) {
     }
     else {
         cout << "Found data at Zipcode " << vertex->zipcodes.at(index) << endl;
-
+        vertex->data.at(index).sort_data();
         for (int i = 0; i < vertex->data.at(index).Get_data().size(); i++) {
             cout << "   Name: " << vertex->data.at(index).Get_data().at(i).first << endl;
             cout << "   Address: " << vertex->data.at(index).Get_data().at(i).second << endl;
