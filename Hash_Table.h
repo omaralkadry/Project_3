@@ -2,7 +2,6 @@
 #include <vector>
 #include <list>
 #include "Person.h"
-
 using namespace std;
 
 class HashTable {
