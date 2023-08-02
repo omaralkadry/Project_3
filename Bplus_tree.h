@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-#include "Person.h"
+#include "Person.cpp"
 
 class Node {
 public:
