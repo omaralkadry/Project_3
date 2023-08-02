@@ -19,14 +19,9 @@ Person::Person(int zipcode)
     this->zipcode = zipcode;
 }
 
-vector<string> Person::Get_names() 
+vector<pair<string, string>> Person::Get_data()
 {
-    return this->names;
-}
-
-vector<string> Person::Get_addresses() 
-{
-    return this->addresses;
+    return this->data;
 }
 
 int Person::Get_zipcode() 
@@ -36,8 +31,6 @@ int Person::Get_zipcode()
 
 void Person::Add_offender(const string &name, const string &address)
 {
-    this->names.push_back(name);   //Do not use
-    this->addresses.push_back(address);  //Do not use
     this->data.emplace_back(name,address);
 }
 
@@ -64,4 +57,10 @@ void Person::PrintInfo(){
 	cout << "City: " << this->city << endl;
 	cout << "State:" << this->state << endl;
 	cout << "Zipcode: " << this->zipcode << endl;
+}
+
+void Person::remove_person(int index)
+{
+    auto iter = data.begin() + index;
+    data.erase(iter);
 }
