@@ -34,7 +34,7 @@ int Person::Get_zipcode()
     return this->zipcode;
 }
 
-void Person::Add_offender(string &name, string &address)
+void Person::Add_offender(const string &name,const string &address)
 {
     this->names.push_back(name);
     this->addresses.push_back(address);

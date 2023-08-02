@@ -22,7 +22,7 @@ public:
     vector<string> Get_names();
     vector<string> Get_addresses();
     int Get_zipcode();
-    void Add_offender(string& name, string& address);
+    void Add_offender(const string& name,const string& address);
     void Deserialize(istringstream& stream);
     void PrintInfo();
 };
