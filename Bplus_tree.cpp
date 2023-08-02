@@ -5,37 +5,13 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-#include "Person.h"
+#include "Bplus_tree.h"
 using namespace std;
-
-class Node {
-public:
-    bool is_leaf;
-    vector<int> zipcodes;
-    vector<Person> data;
-    vector<Node*> children;
-    explicit Node(bool leaf_bool);
-
-};
 
 Node::Node(bool leaf_bool)
 {
     this->is_leaf = leaf_bool;
 }
-
-// B+ tree class
-class BPlusTree {
-public:
-    BPlusTree();
-    Node* Get_root(); // unused
-    void insert(int zipcode, const string& name, const string& address);
-    void search(int zipcode);
-
-private:
-    Node* root;
-    // adjust order value according to size of total data
-    const int order = 100;
-};
 
 BPlusTree::BPlusTree()
 {
@@ -192,4 +168,3 @@ void BPlusTree::search(int zipcode) {
         }
     }
 }
-
