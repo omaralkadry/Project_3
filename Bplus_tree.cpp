@@ -5,14 +5,14 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-#include "Offender.cpp"
+#include "Person.h"
 using namespace std;
 
 class Node {
 public:
     bool is_leaf;
     vector<int> zipcodes;
-    vector<Offender> data;
+    vector<Person> data;
     vector<Node*> children;
     explicit Node(bool leaf_bool);
 
@@ -54,7 +54,7 @@ void BPlusTree::insert(int zipcode, const string& name, const string& address) {
     if (root == nullptr) {
         root = new Node(true);
         root->zipcodes.push_back(zipcode);
-        Offender person(zipcode);
+        Person person(zipcode);
         person.Add_offender(name, address);
         root->data.push_back(person);
         return;
@@ -77,7 +77,7 @@ void BPlusTree::insert(int zipcode, const string& name, const string& address) {
     // Adds new vertex if zipcode not available. Adds person to vertex
     if (vertex->zipcodes.empty()) {
         vertex->zipcodes.push_back(zipcode);
-        Offender person(zipcode);
+        Person person(zipcode);
         person.Add_offender(name, address);
         vertex->data.push_back(person);
     }
@@ -98,7 +98,7 @@ void BPlusTree::insert(int zipcode, const string& name, const string& address) {
                 }
             }
             vertex->zipcodes.insert(vertex->zipcodes.begin() + i, zipcode);
-            Offender person(zipcode);
+            Person person(zipcode);
             person.Add_offender(name, address);
             vertex->data.insert(vertex->data.begin() + i, person);
         }
