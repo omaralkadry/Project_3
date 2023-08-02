@@ -22,6 +22,7 @@ public:
     Node* Get_root(); // unused
     void insert(int zipcode, const std::string& name, const std::string& address);
     void search(int zipcode);
+    void change_address(int zipcode, string name, string address);
 
 private:
     Node* root;
