@@ -8,11 +8,10 @@
 using namespace std;
 
 class Person {
-    vector<string> names;  //Do not use
-    vector<string> addresses;   //Do not use
     vector <pair<string,string>> data;
     string name;
     string address;
+
     string city;
     string state;
     int zipcode;
@@ -20,8 +19,9 @@ class Person {
 public:
     Person();
     Person(int zipcode);
-    vector<string> Get_names();
-    vector<string> Get_addresses();
+    vector<pair<string,string>> Get_data();
+    void remove_person(int index);
+    void sort_data();
     int Get_zipcode();
     void Add_offender(const string& name,const string& address);
     void Deserialize(istringstream& stream);

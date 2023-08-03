@@ -160,11 +160,51 @@ void BPlusTree::search(int zipcode) {
     }
     else {
         cout << "Found data at Zipcode " << vertex->zipcodes.at(index) << endl;
-
-        for (int i = 0; i < vertex->data.at(index).Get_names().size(); i++) {
-            cout << "   Name: " << vertex->data.at(index).Get_names().at(i) << endl;
-            cout << "   Address: " << vertex->data.at(index).Get_addresses().at(i) << endl;
+        vertex->data.at(index).sort_data();
+        for (int i = 0; i < vertex->data.at(index).Get_data().size(); i++) {
+            cout << "   Name: " << vertex->data.at(index).Get_data().at(i).first << endl;
+            cout << "   Address: " << vertex->data.at(index).Get_data().at(i).second << endl;
             cout << endl;
+        }
+    }
+}
+
+// Change an existing offenders address in the database
+void BPlusTree::change_address(int zipcode, string name, string address) {
+    if (root == nullptr) {
+        cout << "No data exists in the program" << endl;
+        return;
+    }
+
+    Node* vertex = root;
+    while (!vertex->is_leaf) {
+        int child = 0;
+        while (child < vertex->zipcodes.size() && vertex->zipcodes.at(child) <= zipcode) {
+            child++;
+        }
+        vertex = vertex->children.at(child);
+    }
+
+    int index = -1;
+    for (int i = 0; i < vertex->zipcodes.size(); i++) {
+        if (vertex->zipcodes.at(i) == zipcode) {
+            index = i;
+            break;
+        }
+    }
+
+    if (index == -1) {
+        cout << "There are no offenders at the provided zip code." << endl;
+
+    }
+    else {
+        for (int i = 0; i < vertex->data.at(index).Get_data().size(); i++) {
+            if (vertex->data.at(index).Get_data().at(i).first == name) {
+                if (vertex->data.at(index).Get_data().at(i).second == address) {
+                    vertex->data.at(index).remove_person(i);
+                    break;
+                }
+            }
         }
     }
 }
