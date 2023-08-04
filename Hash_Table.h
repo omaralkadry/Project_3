@@ -19,7 +19,7 @@ private:
 public:
     HashTable();
     ~HashTable();
-    void insert (Person& person);
+    void insert (int zipcode, const string& name, const string& address);
     vector<Person> searchByZipcode(int zipcode) const;
 };
 
@@ -56,9 +56,21 @@ void HashTable::rehash(){
     }
 }
 
-void HashTable::insert(Person& person){
-    int hashVal = hash(person.Get_zipcode());
-    table[hashVal].push_back(make_pair(person.Get_zipcode(), person));
+void HashTable::insert(int zipcode, const string& name, const string& address){
+    int key = hash(zipcode);
+    Person person(zipcode);
+
+    // Check if the person already exists in the table
+    for(const auto& data : table[key]){
+        if(data.first == zipcode){
+            person.Add_offender(name, address); // if the person with the same data exists, update the data (ex. they moved)
+            break;
+        }
+    }
+
+    // Otherwise if the person doesn't exist in the data, add the new data
+    person.Add_offender(name, address);
+    table[key].push_back(make_pair(zipcode, person));
     size++;
 
     if(loadFactor() > loadfact){
