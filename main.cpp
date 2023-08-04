@@ -1,8 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include "Bplus_tree.cpp"
-#include "Hash_table.cpp"
+#include "Bplus_tree.h"
+#include "Hash_table.h"
 using namespace std;
 
 void LoadData(string& file, BPlusTree& tree, HashTable& table);

@@ -6,6 +6,7 @@
 #include<string>
 #include<sstream>
 #include<fstream>
+#include<algorithm>
 #include"Person.h"
 using namespace std;
 
