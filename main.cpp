@@ -2,6 +2,7 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+#include <chrono>
 #include "Bplus_tree.h"
 #include "Hash_table.h"
 using namespace std;
@@ -10,7 +11,7 @@ void LoadData(string& file, BPlusTree& tree, HashTable& table);
 
 int main() {
 
-    string filename = "temp_data.csv";
+    string filename = "data.csv";
     BPlusTree Tree;
     HashTable Table;
 
@@ -45,11 +46,24 @@ int main() {
             }
 
             cout << "B+ Tree's output: " << endl;
+            auto start = chrono::high_resolution_clock::now();
             Tree.search(zipcode);
+            auto stop = chrono::high_resolution_clock::now();
+            auto time_lapse = chrono::duration_cast<chrono::microseconds>(stop - start);
+            cout << endl;
+            cout << "Time lapsed for Search in B+ Tree is: " << time_lapse.count()  << " microseconds" << endl;
+            cout << endl;
             cout << endl;
 
+
             cout << "HashTable's output: " << endl;
+            start = chrono::high_resolution_clock::now();
             Table.searchByZipcode(zipcode);
+            stop = chrono::high_resolution_clock::now();
+            time_lapse = chrono::duration_cast<chrono::microseconds>(stop - start);
+            cout << endl;
+            cout << "Time lapsed for Search in Hash Table is: " << time_lapse.count()  << " microseconds" << endl;
+            cout << endl;
             cout << endl;
         }
 
@@ -79,8 +93,26 @@ int main() {
                     isValidInput = true; // Input is valid, exit loop
                 }
             }
+
+            // Insertion into B+ Tree with time-lapse
+            auto start = chrono::high_resolution_clock::now();
             Tree.insert((zipcode), name, address);
+            auto stop = chrono::high_resolution_clock::now();
+            auto time_lapse = chrono::duration_cast<chrono::microseconds>(stop - start);
+            cout << endl;
+            cout << "Time lapsed for Insertion in B+ Tree is: " << time_lapse.count()  << " microseconds" << endl;
+            cout << endl;
+            cout << endl;
+
+            // Insertion into Hash Table with time-lapse
+            start = chrono::high_resolution_clock::now();
             Table.insert((zipcode), name, address);
+            stop = chrono::high_resolution_clock::now();
+            time_lapse = chrono::duration_cast<chrono::microseconds>(stop - start);
+            cout << endl;
+            cout << "Time lapsed for Insertion in Hash Table is: " << time_lapse.count()  << " microseconds" << endl;
+            cout << endl;
+            cout << endl;
         }
         else if (input == "3") {
             cout << "Thank you for using the Meghan's Law Program." << endl;
@@ -97,7 +129,7 @@ void LoadData(string& file, BPlusTree& tree, HashTable& table)
 {
     ifstream inFile(file);
     if (inFile.is_open()) {
-
+        int num = 0;
         string line;
         getline(inFile, line); // Get rid of the header line.
         while(getline(inFile, line)) {
@@ -116,8 +148,16 @@ void LoadData(string& file, BPlusTree& tree, HashTable& table)
             getline(stream_line, zipcode, ',');
             getline(stream_line, county, ',');
 
+            if (zipcode.empty()) {
+                zipcode = "0";
+            }
             tree.insert(stoi(zipcode), name, address);
             table.insert(stoi(zipcode), name, address);
+            cout << num << endl;
+            num++;
+            if (num == 166) {
+                cout << "here" << endl;
+            }
         }
     }
     else {
