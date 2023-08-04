@@ -6,7 +6,7 @@ using namespace std;
 
 class HashTable {
 private:
-    static const int capacity = 100;
+    static int capacity;
     static const double loadfact;
 
     vector<list<pair<int, Person>>> table;

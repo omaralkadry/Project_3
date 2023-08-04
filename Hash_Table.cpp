@@ -15,17 +15,17 @@ HashTable::~HashTable(){
     }
 }
 
+int HashTable::capacity = 100;
 const double HashTable::loadfact = 0.7;
 
 int HashTable::hash(int key) const {
     return key % capacity; // might need to change, this does not resolve collision cases when/if zipcode values are duplicate
 }
 
-void HashTable::rehash(){
+void HashTable::rehash() {
     // Double the capacity and create a new empty table with the new capacity
-    vector<list<pair<int, Person>>> newTable;
-    newTable = table;
-    table.resize(newTable.size() * 2);
+    int newCapacity = capacity * 2;
+    vector<list<pair<int, Person>>> newTable(newCapacity);
 
     // Rehash all elements from the old table to the new table
     for (const auto& bucket : table) {
@@ -34,6 +34,10 @@ void HashTable::rehash(){
             newTable[key].push_back(data);
         }
     }
+
+    // Update the table with the newTable
+    table = move(newTable);
+    capacity = newCapacity;
 }
 
 void HashTable::insert(int zipcode, const string& name, const string& address){
