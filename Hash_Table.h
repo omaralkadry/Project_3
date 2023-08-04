@@ -6,7 +6,7 @@ using namespace std;
 
 class HashTable {
 private:
-    static int capacity;
+    int capacity = 100;
     static const double loadfact;
 
     vector<list<pair<int, Person>>> table;
@@ -20,9 +20,5 @@ public:
     HashTable();
     ~HashTable();
     void insert (int zipcode, const string& name, const string& address);
-    vector<Person> searchByZipcode(int zipcode) const;
+    void searchByZipcode(int zipcode) const;
 };
-
-
-
-
