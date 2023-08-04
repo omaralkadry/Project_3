@@ -1,21 +1,21 @@
 #include <vector>
 #include <list>
 #include "Hash_Table.h"
+#include <utility>
 using namespace std;
 
 /*=== CONSTRUCTOR/DESTRUCTOR===*/
-HashTable::HashTable(){
+HashTable::HashTable() {
     size = 0;
     table.resize(capacity);
 }
 
-HashTable::~HashTable(){
-    for(auto& bucket : table){
+HashTable::~HashTable() {
+    for (auto& bucket : table) {
         bucket.clear();
     }
 }
 
-int HashTable::capacity = 100;
 const double HashTable::loadfact = 0.7;
 
 int HashTable::hash(int key) const {
@@ -40,15 +40,15 @@ void HashTable::rehash() {
     capacity = newCapacity;
 }
 
-void HashTable::insert(int zipcode, const string& name, const string& address){
+void HashTable::insert(int zipcode, const string& name, const string& address) {
     int key = hash(zipcode);
     Person person(zipcode);
 
     // Check if the person already exists in the table
-    for(const auto& data : table[key]){
-        if(data.first == zipcode){
+    for (const auto& data : table[key]) {
+        if (data.first == zipcode) {
             person.Add_offender(name, address); // if the person with the same data exists, update the data (ex. they moved)
-            break;
+            return; // Exit the function after updating the existing entry
         }
     }
 
@@ -57,23 +57,37 @@ void HashTable::insert(int zipcode, const string& name, const string& address){
     table[key].push_back(make_pair(zipcode, person));
     size++;
 
-    if(loadFactor() > loadfact){
+    if (loadFactor() > loadfact) {
         rehash();
     }
 }
 
-double HashTable::loadFactor() const{
+double HashTable::loadFactor() const {
     return static_cast<double>(size) / static_cast<double>(capacity);
 }
 
-vector<Person> HashTable::searchByZipcode(int zipcode) const{
-    vector<Person> result;
+void HashTable::searchByZipcode(int zipcode) const {
     int key = hash(zipcode);
+    bool found = false;
 
-    for(const auto& data : table[key]){
-        if(data.first == zipcode){
-            result.push_back(data.second);
+    for (const auto& data : table[key]) {
+        if (data.first == zipcode) {
+            Person person = data.second;
+            vector<pair<string, string>> personData = person.Get_data();
+
+            cout << "Found data at Zipcode " << zipcode << ":" << endl;
+            person.sort_data();
+            for (int i = 0; i < personData.size(); i++) {
+                cout << "   Name: " << personData.at(i).first << endl;
+                cout << "   Address: " << personData.at(i).second << endl;
+                cout << endl;
+            }
+
+            found = true;
         }
     }
-    return result;
+
+    if (!found) {
+        cout << "There are no offenders at the provided zip code." << endl;
+    }
 }
