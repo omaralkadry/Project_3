@@ -27,15 +27,36 @@ int main() {
 
         if (input == "1") {
             int zipcode;
-            cout << "Enter zipcode to search for: " << endl;
-            cin >> zipcode;
+            bool isValidInput = false;
+
+            while (!isValidInput) {
+                cout << "Enter zipcode to search for: " << endl;
+                cin >> zipcode;
+                cout << endl;
+
+                if (cin.fail()) { // only accept numeric input
+                    cin.clear();
+                    cin.ignore();
+                    cout << "Invalid Input: Zipcode must be numeric." << endl;
+                } else {
+                    isValidInput = true; // Input is valid, exit loop
+                }
+            }
+
+            cout << "B+ Tree's output: " << endl;
             Tree.search(zipcode);
+            cout << endl;
+
+            cout << "HashTable's output: " << endl;
+            Table.searchByZipcode(zipcode);
+            cout << endl;
         }
+
         else if (input == "2") {
-            cout << "Empty Option" << endl;
+            cout << "Empty Option." << endl;
         }
         else if (input == "3") {
-            cout << "Thank you for using the Meghan's Law Program" << endl;
+            cout << "Thank you for using the Meghan's Law Program." << endl;
         }
         else {
             cout << "Invalid Selection" << endl;
