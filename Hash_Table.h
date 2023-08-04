@@ -6,8 +6,6 @@ using namespace std;
 
 class HashTable {
 private:
-    HashTable();
-    ~HashTable();
     static const int capacity = 100;
     static const double loadfact;
 
@@ -19,6 +17,8 @@ private:
     double loadFactor() const;
 
 public:
+    HashTable();
+    ~HashTable();
     void insert (Person& person);
     vector<Person> searchByZipcode(int zipcode) const;
 };
@@ -35,8 +35,10 @@ HashTable::~HashTable(){
     }
 }
 
+const double HashTable::loadfact = 0.7;
+
 int HashTable::hash(int key) const {
-    return key % capacity; // this does not resolve collision cases when/if zipcode values are duplicate
+    return key % capacity; // might need to change, this does not resolve collision cases when/if zipcode values are duplicate
 }
 
 void HashTable::rehash(){
@@ -64,6 +66,21 @@ void HashTable::insert(Person& person){
     }
 }
 
+double HashTable::loadFactor() const{
+    return static_cast<double>(size) / static_cast<double>(capacity);
+}
+
+vector<Person> HashTable::searchByZipcode(int zipcode) const{
+    vector<Person> result;
+    int key = hash(zipcode);
+
+    for(const auto& data : table[key]){
+        if(data.first == zipcode){
+            result.push_back(data.second);
+        }
+    }
+    return result;
+}
 
 
 
