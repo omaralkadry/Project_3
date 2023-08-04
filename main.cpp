@@ -2,17 +2,18 @@
 #include <fstream>
 #include <sstream>
 #include "Bplus_tree.cpp"
-//#include "Hash_table.cpp"
+#include "Hash_table.cpp"
 using namespace std;
 
-void LoadData(string& file, BPlusTree& tree);
+void LoadData(string& file, BPlusTree& tree, HashTable& table);
 
 int main() {
 
     string filename = "temp_data.csv";
     BPlusTree Tree;
+    HashTable Table;
 
-    LoadData(filename,Tree);
+    LoadData(filename, Tree, Table);
 
     string input = "0";
 
@@ -41,13 +42,10 @@ int main() {
         }
 
     }
-
-
-
     return 0;
 }
 
-void LoadData(string& file, BPlusTree& tree)
+void LoadData(string& file, BPlusTree& tree, HashTable& table)
 {
     ifstream inFile(file);
     if (inFile.is_open()) {
@@ -70,8 +68,8 @@ void LoadData(string& file, BPlusTree& tree)
             getline(stream_line, zipcode, ',');
             getline(stream_line, county, ',');
 
-            tree.insert(stoi(zipcode),name,address);
-            // insert into hash table here
+            tree.insert(stoi(zipcode), name, address);
+            table.insert(stoi(zipcode), name, address);
         }
     }
     else {
