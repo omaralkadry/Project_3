@@ -14,7 +14,35 @@ int main() {
 
     LoadData(filename,Tree);
 
-    Tree.search(32244);
+    string input = "0";
+
+    while (input != "3") {
+        cout << "Menu:" << endl;
+        cout << "1. Search by zipcode" << endl;
+        cout << "2. Empty Option" << endl;
+        cout << "3. Exit" << endl;
+        cout << "Enter selection: (1,2 or 3)" << endl;
+        cin >> input;
+
+        if (input == "1") {
+            int zipcode;
+            cout << "Enter zipcode to search for: " << endl;
+            cin >> zipcode;
+            Tree.search(zipcode);
+        }
+        else if (input == "2") {
+            cout << "Empty Option" << endl;
+        }
+        else if (input == "3") {
+            cout << "Thank you for using the Meghan's Law Program" << endl;
+        }
+        else {
+            cout << "Invalid Selection" << endl;
+        }
+
+    }
+
+
 
     return 0;
 }
