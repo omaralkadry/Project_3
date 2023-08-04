@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include <fstream>
 #include <sstream>
 #include "Bplus_tree.h"
@@ -20,7 +21,7 @@ int main() {
     while (input != "3") {
         cout << "Menu:" << endl;
         cout << "1. Search by zipcode" << endl;
-        cout << "2. Empty Option" << endl;
+        cout << "2. Add person" << endl;
         cout << "3. Exit" << endl;
         cout << "Enter selection: (1,2 or 3)" << endl;
         cin >> input;
@@ -53,7 +54,33 @@ int main() {
         }
 
         else if (input == "2") {
-            cout << "Empty Option." << endl;
+            cin.ignore();
+            string name;
+            cout << "Enter Person's Name: " << endl;
+            getline(cin,name);
+
+            string address;
+            cout << "Enter Person's Address or any information regarding their location: " << endl;
+            getline(cin,address);
+
+            int zipcode;
+            bool isValidInput = false;
+
+            while (!isValidInput) {
+                cout << "Enter Person's Zipcode or 0 if address is not available: " << endl;
+                cin >> zipcode;
+                cout << endl;
+
+                if (cin.fail()) { // only accept numeric input
+                    cin.clear();
+                    cin.ignore();
+                    cout << "Invalid Input: Zipcode must be numeric." << endl;
+                } else {
+                    isValidInput = true; // Input is valid, exit loop
+                }
+            }
+            Tree.insert((zipcode), name, address);
+            Table.insert((zipcode), name, address);
         }
         else if (input == "3") {
             cout << "Thank you for using the Meghan's Law Program." << endl;
@@ -97,19 +124,3 @@ void LoadData(string& file, BPlusTree& tree, HashTable& table)
         cout << "Error! File couldn't open.";
     }
 }
-/*
-  ifstream csv("temp_data.csv");
-        if (csv.is_open()) {
-            string line;
-            getline(csv, line);// Get rid of the header line.
-            while (getline(csv, line)) {
-                istringstream stream(line);
-                Person person;
-                person.Deserialize(stream);
-                output.push_back(person);
-            }
-        }
-        else {
-            cout << "Error! File couldn't open.";
-        }
- */
