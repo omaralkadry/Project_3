@@ -11,7 +11,7 @@ void LoadData(string& file, BPlusTree& tree, HashTable& table);
 
 int main() {
 
-    string filename = "data.csv";
+    string filename = "temp_data.csv";
     BPlusTree Tree;
     HashTable Table;
 
@@ -139,6 +139,7 @@ void LoadData(string& file, BPlusTree& tree, HashTable& table)
             string city;
             string state;
             string zipcode;
+            int key;
             string county;
 
             getline(stream_line, name, ',');
@@ -148,16 +149,20 @@ void LoadData(string& file, BPlusTree& tree, HashTable& table)
             getline(stream_line, zipcode, ',');
             getline(stream_line, county, ',');
 
-            if (zipcode.empty()) {
-                zipcode = "0";
+            if (!zipcode.empty()) {
+                key = stoi(zipcode);
             }
-            tree.insert(stoi(zipcode), name, address);
-            table.insert(stoi(zipcode), name, address);
-            cout << num << endl;
-            num++;
-            if (num == 166) {
+            else {
+                key = 0;
+            }
+            if (num == 23) {
                 cout << "here" << endl;
             }
+            tree.insert(key, name, address);
+            table.insert(key, name, address);
+            cout << num << endl;
+            num++;
+
         }
     }
     else {
