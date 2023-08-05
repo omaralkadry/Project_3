@@ -20,5 +20,6 @@ public:
     HashTable();
     ~HashTable();
     void insert (int& zipcode, string& name, string& address);
+    void remove(const string& name, int zipcode);
     void searchByZipcode(int zipcode);
 };
