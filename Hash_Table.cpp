@@ -2,6 +2,7 @@
 #include <list>
 #include "Hash_Table.h"
 #include <utility>
+#include <algorithm>
 using namespace std;
 
 /*=== CONSTRUCTOR/DESTRUCTOR===*/
