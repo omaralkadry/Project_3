@@ -45,7 +45,7 @@ void HashTable::insert(int zipcode, const string& name, const string& address) {
     Person person(zipcode);
 
     // Check if the person already exists in the table
-    for (auto& data : table[key]) {
+    for ( auto& data : table[key]) {
         if (data.first == zipcode) {
             //person.Add_offender(name, address); // if the person with the same data exists, update the data (ex. they moved)
             data.second.Add_offender(name,address);
