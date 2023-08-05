@@ -2,6 +2,7 @@
 #include <list>
 #include "Hash_Table.h"
 #include <utility>
+#include <algorithm>
 using namespace std;
 
 /*=== CONSTRUCTOR/DESTRUCTOR===*/
@@ -58,7 +59,7 @@ void HashTable::insert(int& zipcode, string& name, string& address) {
 
     // Otherwise if the person doesn't exist in the data, add the new data
     person.Add_offender(name, address);
-    table[key].push_back(make_pair(zipcode, person));
+    table[key].emplace_back(zipcode, person);
     size++;
 
     if (loadFactor() > loadfact) {

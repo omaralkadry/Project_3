@@ -168,7 +168,7 @@ void BPlusTree::search(int zipcode) {
     }
 }
 
-// Change an existing offenders address in the database
+// Change an existing offenders address in the database. Not used. This is essentially a remove function as of now
 void BPlusTree::change_address(int zipcode, string name, string address) {
     if (root == nullptr) {
         cout << "No data exists in the program" << endl;
