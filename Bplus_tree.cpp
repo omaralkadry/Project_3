@@ -77,56 +77,56 @@ void BPlusTree::insert(int zipcode, const string& name, const string& address) {
             person.Add_offender(name, address);
             vertex->data.insert(vertex->data.begin() + i, person);
         }
-        // zipcode found
+            // zipcode found
         else {
             vertex->data.at(same_key).Add_offender(name, address);
         }
     }
-        // If overflow occurs, splits leaf node into two nodes
-        if (vertex->zipcodes.size() >= order) {
+    // If overflow occurs, splits leaf node into two nodes
+    if (vertex->zipcodes.size() >= order) {
 
-            // Move data to new node and add new node
-            Node* right = new Node(true);
-            int median = vertex->zipcodes.size() / 2;
-            right->zipcodes.assign(vertex->zipcodes.begin() + median, vertex->zipcodes.end());
-            right->data.assign(vertex->data.begin() + median, vertex->data.end());
+        // Move data to new node and add new node
+        Node* right = new Node(true);
+        int median = vertex->zipcodes.size() / 2;
+        right->zipcodes.assign(vertex->zipcodes.begin() + median, vertex->zipcodes.end());
+        right->data.assign(vertex->data.begin() + median, vertex->data.end());
 
-            vertex->zipcodes.erase(vertex->zipcodes.begin() + median, vertex->zipcodes.end());
-            vertex->data.erase(vertex->data.begin() + median, vertex->data.end());
+        vertex->zipcodes.erase(vertex->zipcodes.begin() + median, vertex->zipcodes.end());
+        vertex->data.erase(vertex->data.begin() + median, vertex->data.end());
 
-            // check if vertex is a leaf node
-            if (vertex->children.empty()) {
-                vertex->children.push_back(right);
-            }
-            else {
-                right->children.push_back(vertex->children.at(vertex->children.size() - 1));
-                vertex->children.at(vertex->children.size() - 1) = right;
-            }
+        // check if vertex is a leaf node
+        if (vertex->children.empty()) {
+            vertex->children.push_back(right);
+        }
+        else {
+            right->children.push_back(vertex->children.at(vertex->children.size() - 1));
+            vertex->children.at(vertex->children.size() - 1) = right;
+        }
 
-            if (vertex == root) {
-                root = new Node(false);
-                root->zipcodes.push_back(right->zipcodes.at(0));
-                root->children.push_back(vertex);
-                root->children.push_back(right);
-            }
+        if (vertex == root) {
+            root = new Node(false);
+            root->zipcodes.push_back(right->zipcodes.at(0));
+            root->children.push_back(vertex);
+            root->children.push_back(right);
+        }
 
             //splits for leaf node, promotes lower zipcode to the parent
-            else {
-                Node* parent = vertex->children.at(vertex->children.size()-1);
-                int x = 0;
-                while (parent->zipcodes.size() > x && parent->zipcodes.at(x) < right->zipcodes.at(0)) {
-                    x++;
-                }
-                parent->zipcodes.insert(parent->zipcodes.begin() + x, right->zipcodes.at(0));
-                int y = x + 1;
-                while (parent->children.size() > y && parent->children.at(y) < right) {
-                    y++;
-                }
-                parent->children.insert(parent->children.begin() + y, right);
-                delete right;
+        else {
+            Node* parent = vertex->children.at(vertex->children.size()-1);
+            int x = 0;
+            while (parent->zipcodes.size() > x && parent->zipcodes.at(x) < right->zipcodes.at(0)) {
+                x++;
             }
+            parent->zipcodes.insert(parent->zipcodes.begin() + x, right->zipcodes.at(0));
+            int y = x + 1;
+            while (parent->children.size() > y && parent->children.at(y) < right) {
+                y++;
+            }
+            parent->children.insert(parent->children.begin() + y, right);
+            delete right;
         }
     }
+}
 
 // Traverse the tree for the vertex matching zipcode. If found, print all the people within the vertex
 void BPlusTree::search(int zipcode) {
@@ -168,7 +168,7 @@ void BPlusTree::search(int zipcode) {
     }
 }
 
-// Change an existing offenders address in the database. Not used. This is essentially a remove function as of now
+// Change an existing offenders address in the database
 void BPlusTree::change_address(int zipcode, string name, string address) {
     if (root == nullptr) {
         cout << "No data exists in the program" << endl;
@@ -197,13 +197,19 @@ void BPlusTree::change_address(int zipcode, string name, string address) {
 
     }
     else {
+        bool found = false;
         for (int i = 0; i < vertex->data.at(index).Get_data().size(); i++) {
             if (vertex->data.at(index).Get_data().at(i).first == name) {
                 if (vertex->data.at(index).Get_data().at(i).second == address) {
                     vertex->data.at(index).remove_person(i);
+                    cout << "Successfully deleted the person with name: " << name << " and zipcode: " << zipcode << endl;
+                    found = true;
                     break;
                 }
             }
+        }
+        if (!found) {
+            cout << "No matching person found with name: " << name << " and zipcode: " << zipcode << endl;
         }
     }
 }
