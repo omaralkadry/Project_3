@@ -75,7 +75,7 @@ void HashTable::searchByZipcode(int zipcode) {
     bool found = false;
     vector<pair<string, string>> namesAndAddresses;
 
-    cout << "Found data at Zipcode " << zipcode << ":" << endl;
+
     for (auto& data : table[key]) {
         if (data.first == zipcode) {
             Person person = data.second;
@@ -92,6 +92,8 @@ void HashTable::searchByZipcode(int zipcode) {
         return;
     }
 
+    cout << "Found data at Zipcode " << zipcode << ":" << endl;
+
     //sorts names & addresses
     sort(namesAndAddresses.begin(), namesAndAddresses.end());
 
@@ -102,7 +104,7 @@ void HashTable::searchByZipcode(int zipcode) {
     }
 }
 
-void HashTable::remove(const string& name, int zipcode) {
+void HashTable::remove(const string& name, int zipcode, const string& address) {
     int key = hash(zipcode);
     bool found = false;
 
@@ -111,7 +113,7 @@ void HashTable::remove(const string& name, int zipcode) {
             Person& person = it->second; // reference to the Person object
             vector<pair<string, string>> personData = person.Get_data();
             for (int i = 0; i < personData.size(); i++) {
-                if (personData[i].first == name) {
+                if (personData[i].first == name && personData[i].second == address) {
                     person.remove_person(i);
                     found = true;
                     size--;
