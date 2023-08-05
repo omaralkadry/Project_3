@@ -24,6 +24,4 @@ public:
     void sort_data();
     int Get_zipcode();
     void Add_offender(const string& name,const string& address);
-    void Deserialize(istringstream& stream);
-    void PrintInfo();
 };

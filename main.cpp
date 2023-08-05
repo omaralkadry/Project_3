@@ -47,7 +47,7 @@ int main() {
 
             cout << "HashTable's output: " << endl;
             start = chrono::high_resolution_clock::now();
-            Table.searchByZipcode(zipcode);
+            Table.search(zipcode);
             stop = chrono::high_resolution_clock::now();
             time_lapse = chrono::duration_cast<chrono::microseconds>(stop - start);
             cout << endl;
@@ -137,7 +137,7 @@ void LoadData(string& file, BPlusTree& tree, HashTable& table)
     if (inFile.is_open()) {
         int num = 0;
         string line;
-        getline(inFile, line); // Get rid of the header line.
+        getline(inFile, line); // Get rid of the header line
         while(getline(inFile, line)) {
             istringstream stream_line(line);
             string name;
@@ -161,14 +161,9 @@ void LoadData(string& file, BPlusTree& tree, HashTable& table)
             else {
                 key = 0;
             }
-            // if (num == 23) {
-            //     cout << "here" << endl;
-            // }
+        
             tree.insert(key, name, address);
             table.insert(key, name, address);
-            // cout << num << endl;
-            // num++;
-
         }
     }
     else {
@@ -193,6 +188,5 @@ int getValidIntegerInput(const string& message) {
             isValidInput = true;
         }
     }
-
     return value;
 }

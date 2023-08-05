@@ -1,10 +1,11 @@
 #include <vector>
 #include <list>
-#include "Hash_Table.h"
 #include <utility>
+#include <algorithm>
+#include "Hash_Table.h"
 using namespace std;
 
-/*=== CONSTRUCTOR/DESTRUCTOR===*/
+// Initialize the hash table
 HashTable::HashTable() {
     size = 0;
     table.resize(capacity);
@@ -18,8 +19,9 @@ HashTable::~HashTable() {
 
 const double HashTable::loadfact = 0.7;
 
+// Calculate the hash value for a given key using modulo operation
 int HashTable::hash(int key) {
-    return key % capacity; // might need to change, this does not resolve collision cases when/if zipcode values are duplicate
+    return key % capacity; 
 }
 
 void HashTable::rehash() {
@@ -27,7 +29,7 @@ void HashTable::rehash() {
     int newCapacity = capacity * 2;
     vector<list<pair<int, Person>>> newTable(newCapacity);
 
-    // Rehash all elements from the old table to the new table
+    // Iterate through each bucket in the current size
     for (auto& bucket : table) {
         for (auto& data : bucket) {
             int key = hash(data.first);
@@ -44,38 +46,28 @@ void HashTable::insert(int& zipcode, string& name, string& address) {
     int key = hash(zipcode);
     Person person(zipcode);
 
-    // Check if the person already exists in the table
-    // for (auto& data : table[key]) {
-    //     person = data.second;
-    //     if (data.first == zipcode) {
-    //         data.second.Add_offender(name,address);
-    //         return; // Exit the function after updating the existing entry
-    //     }
-    //     else{
-
-    //     }
-    // }
-
-    // Otherwise if the person doesn't exist in the data, add the new data
+    // Add the new data to the person
     person.Add_offender(name, address);
     table[key].push_back(make_pair(zipcode, person));
     size++;
 
+    // Check if rehashing is needed
     if (loadFactor() > loadfact) {
         rehash();
     }
 }
 
+// Calculate the current load factor of the hash table
 double HashTable::loadFactor() const {
     return static_cast<double>(size) / static_cast<double>(capacity);
 }
 
-void HashTable::searchByZipcode(int zipcode) {
+void HashTable::search(int zipcode) {
     int key = hash(zipcode);
     bool found = false;
     vector<pair<string, string>> namesAndAddresses;
 
-
+    // Iterate through elements in the bucket
     for (auto& data : table[key]) {
         if (data.first == zipcode) {
             Person person = data.second;
@@ -87,6 +79,7 @@ void HashTable::searchByZipcode(int zipcode) {
         }
     }
 
+    // If no matching data found, print the statement
     if (!found) {
         cout << "There are no offenders at the provided zip code." << endl;
         return;
@@ -94,7 +87,7 @@ void HashTable::searchByZipcode(int zipcode) {
 
     cout << "Found data at Zipcode " << zipcode << ":" << endl;
 
-    //sorts names & addresses
+    // Sorts names & addresses
     sort(namesAndAddresses.begin(), namesAndAddresses.end());
 
     for (const auto& nameAndAddress : namesAndAddresses) {
@@ -104,6 +97,7 @@ void HashTable::searchByZipcode(int zipcode) {
     }
 }
 
+// Remove a person's data from the hash table based on name, zipcode, and address
 void HashTable::remove(const string& name, int zipcode, const string& address) {
     int key = hash(zipcode);
     bool found = false;

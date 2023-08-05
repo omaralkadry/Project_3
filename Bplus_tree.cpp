@@ -25,7 +25,7 @@ Node* BPlusTree::Get_root()
 // Add new vertex into Tree
 void BPlusTree::insert(int zipcode, const string& name, const string& address) {
 
-    //add new vertex as root if Tree is empty
+    // Add new vertex as root if Tree is empty
     if (root == nullptr) {
         root = new Node(true);
         root->zipcodes.push_back(zipcode);
@@ -64,7 +64,7 @@ void BPlusTree::insert(int zipcode, const string& name, const string& address) {
                 break;
             }
         }
-        // zipcode not found
+        // If zipcode not found
         if (same_key == -1) {
             int i = 0;
             for (; i < vertex->zipcodes.size(); i++) {
@@ -77,7 +77,7 @@ void BPlusTree::insert(int zipcode, const string& name, const string& address) {
             person.Add_offender(name, address);
             vertex->data.insert(vertex->data.begin() + i, person);
         }
-            // zipcode found
+            // If zipcode found
         else {
             vertex->data.at(same_key).Add_offender(name, address);
         }
@@ -94,7 +94,7 @@ void BPlusTree::insert(int zipcode, const string& name, const string& address) {
         vertex->zipcodes.erase(vertex->zipcodes.begin() + median, vertex->zipcodes.end());
         vertex->data.erase(vertex->data.begin() + median, vertex->data.end());
 
-        // check if vertex is a leaf node
+        // Check if vertex is a leaf node
         if (vertex->children.empty()) {
             vertex->children.push_back(right);
         }
@@ -110,7 +110,7 @@ void BPlusTree::insert(int zipcode, const string& name, const string& address) {
             root->children.push_back(right);
         }
 
-            //splits for leaf node, promotes lower zipcode to the parent
+            // Splits for leaf node, promotes lower zipcode to the parent
         else {
             Node* parent = vertex->children.at(vertex->children.size()-1);
             int x = 0;
@@ -208,7 +208,7 @@ void BPlusTree::change_address(int zipcode, string name, string address) {
                 }
             }
         }
-        // no person found with matching name and address
+        // No person found with matching name and address
         if (!found) {
             cout << "No matching person found with name: " << name << " and zipcode: " << zipcode << endl;
         }
