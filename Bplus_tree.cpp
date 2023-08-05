@@ -208,6 +208,7 @@ void BPlusTree::change_address(int zipcode, string name, string address) {
                 }
             }
         }
+        // no person found with matching name and address
         if (!found) {
             cout << "No matching person found with name: " << name << " and zipcode: " << zipcode << endl;
         }
