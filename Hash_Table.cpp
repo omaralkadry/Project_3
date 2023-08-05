@@ -3,6 +3,8 @@
 #include <utility>
 #include <algorithm>
 #include "Hash_Table.h"
+#include <utility>
+#include <algorithm>
 using namespace std;
 
 // Initialize the hash table
