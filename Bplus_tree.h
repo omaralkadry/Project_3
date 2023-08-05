@@ -26,7 +26,7 @@ public:
 
 private:
     Node* root;
-    const int order = 10; // adjust order value according to the size of total data
+    const int order = 16000; // adjust order value according to the size of total data
 };
 
 #endif // BPLUSTREE_H
