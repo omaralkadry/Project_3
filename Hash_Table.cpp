@@ -52,7 +52,7 @@ void HashTable::insert(int& zipcode, string& name, string& address) {
     //         return; // Exit the function after updating the existing entry
     //     }
     //     else{
-            
+
     //     }
     // }
 
@@ -73,23 +73,31 @@ double HashTable::loadFactor() const {
 void HashTable::searchByZipcode(int zipcode) {
     int key = hash(zipcode);
     bool found = false;
+    vector<pair<string, string>> namesAndAddresses;
 
     cout << "Found data at Zipcode " << zipcode << ":" << endl;
     for (auto& data : table[key]) {
         if (data.first == zipcode) {
             Person person = data.second;
-            person.sort_data();
             vector<pair<string, string>> personData = person.Get_data();
             found = true;
             for (int i = 0; i < personData.size(); i++) {
-                cout << "   Name: " << personData.at(i).first << endl;
-                cout << "   Address: " << personData.at(i).second << endl;
-                cout << endl;
+                namesAndAddresses.push_back(personData.at(i));
             }
         }
     }
 
     if (!found) {
         cout << "There are no offenders at the provided zip code." << endl;
+        return;
+    }
+
+    //sorts names & addresses
+    sort(namesAndAddresses.begin(), namesAndAddresses.end());
+
+    for (const auto& nameAndAddress : namesAndAddresses) {
+        cout << "   Name: " << nameAndAddress.first << endl;
+        cout << "   Address: " << nameAndAddress.second << endl;
+        cout << endl;
     }
 }
