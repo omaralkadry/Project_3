@@ -18,7 +18,7 @@ HashTable::~HashTable() {
 
 const double HashTable::loadfact = 0.7;
 
-int HashTable::hash(int key) const {
+int HashTable::hash(int key) {
     return key % capacity; // might need to change, this does not resolve collision cases when/if zipcode values are duplicate
 }
 
@@ -28,8 +28,8 @@ void HashTable::rehash() {
     vector<list<pair<int, Person>>> newTable(newCapacity);
 
     // Rehash all elements from the old table to the new table
-    for (const auto& bucket : table) {
-        for (const auto& data : bucket) {
+    for (auto& bucket : table) {
+        for (auto& data : bucket) {
             int key = hash(data.first);
             newTable[key].push_back(data);
         }
@@ -40,18 +40,21 @@ void HashTable::rehash() {
     capacity = newCapacity;
 }
 
-void HashTable::insert(int zipcode, const string& name, const string& address) {
+void HashTable::insert(int& zipcode, string& name, string& address) {
     int key = hash(zipcode);
     Person person(zipcode);
 
     // Check if the person already exists in the table
-    for ( auto& data : table[key]) {
-        if (data.first == zipcode) {
-            //person.Add_offender(name, address); // if the person with the same data exists, update the data (ex. they moved)
-            data.second.Add_offender(name,address);
-            return; // Exit the function after updating the existing entry
-        }
-    }
+    // for (auto& data : table[key]) {
+    //     person = data.second;
+    //     if (data.first == zipcode) {
+    //         data.second.Add_offender(name,address);
+    //         return; // Exit the function after updating the existing entry
+    //     }
+    //     else{
+            
+    //     }
+    // }
 
     // Otherwise if the person doesn't exist in the data, add the new data
     person.Add_offender(name, address);

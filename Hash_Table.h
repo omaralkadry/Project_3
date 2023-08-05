@@ -12,13 +12,13 @@ private:
     vector<list<pair<int, Person>>> table;
     int size;
 
-    int hash(int key) const;
+    int hash(int key);
     void rehash();
     double loadFactor() const;
 
 public:
     HashTable();
     ~HashTable();
-    void insert (int zipcode, const string& name, const string& address);
+    void insert (int& zipcode, string& name, string& address);
     void searchByZipcode(int zipcode);
 };
