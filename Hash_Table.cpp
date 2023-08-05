@@ -2,7 +2,6 @@
 #include <list>
 #include "Hash_Table.h"
 #include <utility>
-#include <algorithm>
 using namespace std;
 
 /*=== CONSTRUCTOR/DESTRUCTOR===*/
@@ -59,7 +58,7 @@ void HashTable::insert(int& zipcode, string& name, string& address) {
 
     // Otherwise if the person doesn't exist in the data, add the new data
     person.Add_offender(name, address);
-    table[key].emplace_back(zipcode, person);
+    table[key].push_back(make_pair(zipcode, person));
     size++;
 
     if (loadFactor() > loadfact) {
@@ -100,5 +99,31 @@ void HashTable::searchByZipcode(int zipcode) {
         cout << "   Name: " << nameAndAddress.first << endl;
         cout << "   Address: " << nameAndAddress.second << endl;
         cout << endl;
+    }
+}
+
+void HashTable::remove(const string& name, int zipcode) {
+    int key = hash(zipcode);
+    bool found = false;
+
+    for (auto it = table[key].begin(); it != table[key].end(); ++it) {
+        if (it->first == zipcode) {
+            Person& person = it->second; // reference to the Person object
+            vector<pair<string, string>> personData = person.Get_data();
+            for (int i = 0; i < personData.size(); i++) {
+                if (personData[i].first == name) {
+                    person.remove_person(i);
+                    found = true;
+                    size--;
+                    break;
+                }
+            }
+        }
+    }
+
+    if (found) {
+        cout << "Successfully deleted the person with name: " << name << " and zipcode: " << zipcode << endl;
+    } else {
+        cout << "No matching person found with name: " << name << " and zipcode: " << zipcode << endl;
     }
 }
