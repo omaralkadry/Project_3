@@ -11,7 +11,7 @@ void LoadData(string& file, BPlusTree& tree, HashTable& table);
 
 int main() {
 
-    string filename = "temp_data.csv";
+    string filename = "data.csv";
     BPlusTree Tree;
     HashTable Table;
 
