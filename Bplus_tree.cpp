@@ -4,7 +4,6 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <algorithm>
 #include "Bplus_tree.h"
 using namespace std;
 
@@ -39,7 +38,7 @@ void BPlusTree::insert(int zipcode, const string& name, const string& address) {
     // Tree traversal to find new vertex location
     Node* vertex = root;
     while (!vertex->is_leaf) {
-        int child = vertex->children.size();
+        int child = vertex->children.size() - 1;
 
         for (int i = 0; i < vertex->zipcodes.size(); i++) {
             if (vertex->zipcodes.at(i) > zipcode) {
@@ -84,25 +83,25 @@ void BPlusTree::insert(int zipcode, const string& name, const string& address) {
         }
     }
         // If overflow occurs, splits leaf node into two nodes
-        if (vertex->zipcodes.size() > order) {
+        if (vertex->zipcodes.size() >= order) {
 
             // Move data to new node and add new node
             Node* right = new Node(true);
             int median = vertex->zipcodes.size() / 2;
-            for (int i = median; i < vertex->zipcodes.size(); i++) {
-                right->zipcodes.push_back(vertex->zipcodes.at(i));
+            right->zipcodes.assign(vertex->zipcodes.begin() + median, vertex->zipcodes.end());
+            right->data.assign(vertex->data.begin() + median, vertex->data.end());
+
+            vertex->zipcodes.erase(vertex->zipcodes.begin() + median, vertex->zipcodes.end());
+            vertex->data.erase(vertex->data.begin() + median, vertex->data.end());
+
+            // check if vertex is a leaf node
+            if (vertex->children.empty()) {
+                vertex->children.push_back(right);
             }
-            for (int i = median; i < vertex->zipcodes.size(); i++) {
-                right->data.push_back(vertex->data.at(i));
+            else {
+                right->children.push_back(vertex->children.at(vertex->children.size() - 1));
+                vertex->children.at(vertex->children.size() - 1) = right;
             }
-            for (int i = median; i < vertex->zipcodes.size();) {
-                right->zipcodes.pop_back();
-            }
-            for (int i = median; i < vertex->zipcodes.size();) {
-                right->data.pop_back();
-            }
-            right->children.push_back(vertex->children.at(vertex->children.size()-1));
-            vertex->children.at(vertex->children.size()-1) = right;
 
             if (vertex == root) {
                 root = new Node(false);
