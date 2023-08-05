@@ -155,13 +155,13 @@ void LoadData(string& file, BPlusTree& tree, HashTable& table)
             else {
                 key = 0;
             }
-            if (num == 23) {
-                cout << "here" << endl;
-            }
+            // if (num == 23) {
+            //     cout << "here" << endl;
+            // }
             tree.insert(key, name, address);
             table.insert(key, name, address);
-            cout << num << endl;
-            num++;
+            // cout << num << endl;
+            // num++;
 
         }
     }

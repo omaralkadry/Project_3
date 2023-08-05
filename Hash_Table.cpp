@@ -67,24 +67,22 @@ double HashTable::loadFactor() const {
     return static_cast<double>(size) / static_cast<double>(capacity);
 }
 
-void HashTable::searchByZipcode(int zipcode) const {
+void HashTable::searchByZipcode(int zipcode) {
     int key = hash(zipcode);
     bool found = false;
 
-    for (const auto& data : table[key]) {
+    cout << "Found data at Zipcode " << zipcode << ":" << endl;
+    for (auto& data : table[key]) {
         if (data.first == zipcode) {
             Person person = data.second;
-            vector<pair<string, string>> personData = person.Get_data();
-
-            cout << "Found data at Zipcode " << zipcode << ":" << endl;
             person.sort_data();
+            vector<pair<string, string>> personData = person.Get_data();
+            found = true;
             for (int i = 0; i < personData.size(); i++) {
                 cout << "   Name: " << personData.at(i).first << endl;
                 cout << "   Address: " << personData.at(i).second << endl;
                 cout << endl;
             }
-
-            found = true;
         }
     }
 
