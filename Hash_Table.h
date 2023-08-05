@@ -23,3 +23,6 @@ public:
     void remove(const string& name, int zipcode, const string& address);
     void search(int zipcode);
 };
+
+
+
